@@ -1,4 +1,4 @@
-name: 'Terraform CI/CD'
+name: 'Terraform CI/CD - Local Backend'
 
 on:
   pull_request:
@@ -26,28 +26,3 @@ jobs:
 
       - name: Terraform Validate
         run: terraform -chdir=environments/dev validate
-
-      - name: Terraform Plan
-        run: terraform -chdir=environments/dev plan -var-file="terraform.tfvars" -input=false
-
-  apply:
-    if: github.event_name == 'push'
-    needs: validate
-    runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://github.com/
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: '1.5.7'
-
-      - name: Terraform Init
-        run: terraform -chdir=environments/dev init -input=false
-
-      - name: Terraform Apply
-        run: terraform -chdir=environments/dev apply -var-file="terraform.tfvars" -input=false -auto-approve
