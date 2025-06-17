@@ -19,13 +19,16 @@ jobs:
           terraform_version: '1.5.7'
 
       - name: Terraform Init
-        run: terraform -chdir=environments/dev init
+        run: terraform -chdir=environments/dev init -input=false
+
+      - name: Terraform Format Check
+        run: terraform -chdir=environments/dev fmt -check
 
       - name: Terraform Validate
-        run: terraform -chdir=environments/dev validate
+        run: terraform -chdir=environments/dev validate -input=false
 
       - name: Terraform Plan
-        run: terraform -chdir=environments/dev plan
+        run: terraform -chdir=environments/dev plan -input=false
 
   apply:
     if: github.event_name == 'push'
@@ -44,7 +47,7 @@ jobs:
           terraform_version: '1.5.7'
 
       - name: Terraform Init
-        run: terraform -chdir=environments/dev init
+        run: terraform -chdir=environments/dev init -input=false
 
       - name: Terraform Apply
-        run: terraform -chdir=environments/dev apply -auto-approve
+        run: terraform -chdir=environments/dev apply -input=false -auto-approve
