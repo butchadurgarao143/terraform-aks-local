@@ -25,7 +25,7 @@ jobs:
         run: terraform -chdir=environments/dev fmt -check
 
       - name: Terraform Validate
-        run: terraform -chdir=environments/dev validate -input=false
+        run: terraform -chdir=environments/dev validate
 
       - name: Terraform Plan
         run: terraform -chdir=environments/dev plan -input=false
